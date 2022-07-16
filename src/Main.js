@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react'
+import useDocumentVisibility from './useDocumentVisibility'
 
 const LeaveTabCounter = () => {
-    const [count, setCount] = useState(0);
-    const [visible, setVisible] = useState(false);
+
+    const { count, visible, onVisibilityChange } = useDocumentVisibility();
 
     useEffect(() => {
-        document.addEventListener('visibilitychange', function() {
-            if (document.visibilityState == "visible") {
-                if (!visible) {
-                    setCount(count+1);
-                    setVisible(true);
-                }
-            } else setVisible(false);
-        })
-    });
+        onVisibilityChange((isVisible) => {
+            console.log('first handler', isVisible)
+        });
+        onVisibilityChange((isVisible) => {
+            console.log('second handler', isVisible)
+        });
+    }, [])
 
     return (
         <div>
